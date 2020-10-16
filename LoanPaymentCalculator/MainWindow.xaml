@@ -1,0 +1,82 @@
+﻿<Window x:Class="LoanPaymentCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LoanPaymentCalculator"
+        mc:Ignorable="d"
+        Title="Loan Payoff Calculator" Height="600" Width="500">
+	<Border Padding="10">
+		<ScrollViewer VerticalScrollBarVisibility="Auto" >
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<!-- Dynamic list of loan entry fields-->
+				<StackPanel Grid.Row="0" Margin="0,0,5,0">
+					<TextBlock TextWrapping="WrapWithOverflow" Text="This is a tool intended to calcuate how long it will take to pay off loan(s) based on changing the monthly payment amount." />
+					<TextBlock Text="Fill in the fields below based on the amounts on your latest statement." />
+					
+				</StackPanel>
+				<Grid x:Name="LoanGrid" Grid.Row="1">
+					<!--Loans input fields-->
+					<ItemsControl Name="icLoansList">
+						<!--Template for row of Loan input fields-->
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Margin="0,5">
+									<TextBlock FontWeight="Bold" Text="{Binding Path=id,
+												StringFormat='Loan #{0}'}"/>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="*"/>
+										</Grid.ColumnDefinitions>
+										<!--Current Principal-->
+										<StackPanel Grid.Column="0" Grid.Row="1">
+											<TextBlock Text="Principal" />
+											<TextBox Text="{Binding principal}"/>
+										</StackPanel>
+										<!--Current Unpaid Interest-->
+										<StackPanel Grid.Column="1" Grid.Row="1">
+											<TextBlock  Text="Unpaid Interest"/>
+											<TextBox Text="{Binding interest}"/>
+										</StackPanel>
+										<!-- Interest Rate as a percentage, value will be converted in backend -->
+										<StackPanel Grid.Column="2" Grid.Row="1">
+											<TextBlock Text="Rate (%)" />
+											<TextBox Text="{Binding rate}"/>
+										</StackPanel>
+									</Grid>
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
+				<StackPanel Grid.Row="2">
+					<!--Add Loan Button-->
+					<Button x:Name="AddRowBtn" Content="Add Loan" Click="AddRowBtn_Click" Width="200"/>
+					<!--Monthly Payment Entry-->
+					<StackPanel Orientation="Horizontal">
+						<StackPanel Margin="5,10" >
+							<TextBlock Text="Monthly Payment" FontWeight="Bold" />
+							<TextBox x:Name="PaymentAmt" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Margin="0,10" Orientation="Horizontal">
+						<Button x:Name="ResetBtn" Content="Reset" Click="ResetBtn_Click" Width="200" Margin="10,0"/>
+						<!--Calculate Payoff Period-->
+						<Button x:Name="CalcBtn" Content="Calculate" Click="CalcBtn_Click" Width="200" Margin="10,0" />
+					</StackPanel>
+					<!--Messaging body-->
+					<Label x:Name="ResultsText" />
+					<Separator/>
+					<TextBlock Text="An application by Kevin O'Neil, 2020" Margin="0,15"/>
+				</StackPanel>
+			</Grid>
+		</ScrollViewer>
+	</Border>
+</Window>
